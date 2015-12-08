@@ -27,9 +27,13 @@ class ImageController {
                     .url(url)
                     .build()
             val res = client.newCall(req).execute()
-            val x = (i % 2) * 640
-            val y = (i / 2) * 640
-            image.getSubimage(x,y,640, 640).data = ImageIO.read(res.body().byteStream()).data
+            if (res != null && res.isSuccessful) {
+                val x = (i % 2) * 640
+                val y = (i / 2) * 640
+                image.getSubimage(x, y, 640, 640).data = ImageIO.read(res.body()?.byteStream())?.data
+            } else {
+                println("Request $url was failed ${res.code()} ${res.message()}")
+            }
         }
         
         response.contentType = "image/png"
