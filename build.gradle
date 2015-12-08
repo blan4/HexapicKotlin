@@ -63,6 +63,7 @@ dependencies {
     //compile('org.mybatis:mybatis-spring:1.2.3')
     //compile('org.flywaydb:flyway-core:3.2.1')
 
+    compile 'nl.komponents.kovenant:kovenant:3.0.0-beta.3'
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
