@@ -1,4 +1,4 @@
-package com.seniorsigan.kuestagbot
+package com.seniorsigan.kuestagbot.models
 
 data class FlickrPhotosList(
         var photos: FlickrPhotos = FlickrPhotos(),

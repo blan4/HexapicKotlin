@@ -2,20 +2,28 @@ package com.seniorsigan.kuestagbot
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.seniorsigan.kuestagbot.models.FlickrPhotosList
 import com.squareup.okhttp.OkHttpClient
 import com.squareup.okhttp.Request
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class FlickrService 
+class FlickrRepository 
 @Autowired constructor(
         val objectMapper: ObjectMapper,
         val client: OkHttpClient
-) {
+): ImagesRepository {
+    
+    override fun photosUrlsByTag(tag: String): List<String> {
+        val photos = photosByTag(tag)
+        return photos.toUrls("z")
+    }
+
+    val API_KEY = "bd053065ce6662cb4b2f4c0be2b65266"
+    
     fun photosByTag(tag: String): FlickrPhotosList {
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        val API_KEY = "bd053065ce6662cb4b2f4c0be2b65266"
         val method = "flickr.tags.getClusterPhotos"
         val url = "https://api.flickr.com/services/rest/?method=$method&api_key=$API_KEY&tag=$tag&format=json&nojsoncallback=1"
         println("Send request to $url")
