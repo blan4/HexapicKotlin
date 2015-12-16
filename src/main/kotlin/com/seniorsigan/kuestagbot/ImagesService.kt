@@ -29,7 +29,7 @@ class ImagesService
         }
     }
     
-    fun loadImages(urls: List<String>, count: Int): List<BufferedImage> {
+    fun loadImages(urls: List<String>, count: Int, filter: (BufferedImage) -> Boolean = { true }): List<BufferedImage> {
         if (urls.size < count) throw Exception("Not enough urls to download")
         val executor = Executors.newFixedThreadPool(4)
         val doneSignal = CountDownLatch(count)
@@ -45,10 +45,14 @@ class ImagesService
                     println("Try to download $url for $i index")
                     try {
                         val image = loadImage(url)
-                        //some checks
-                        images[i] = image
-                        println("Downloaded image for $i index")
-                        break
+                        if (filter(image)) {
+                            images[i] = image
+                            println("Downloaded image for $i index")
+                            break
+                        } else {
+                            println("Skipped image $url because of filter")
+                            continue
+                        }
                     } catch(e: Exception) {
                         println("Error while downloading url $url ${e.message}")
                         continue
