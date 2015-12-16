@@ -24,8 +24,8 @@ class FlickrRepository
     
     fun photosByTag(tag: String): FlickrPhotosList {
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        val method = "flickr.tags.getClusterPhotos"
-        val url = "https://api.flickr.com/services/rest/?method=$method&api_key=$API_KEY&tag=$tag&format=json&nojsoncallback=1"
+        val method = "flickr.photos.search"
+        val url = "https://api.flickr.com/services/rest/?method=$method&api_key=$API_KEY&tags=$tag&per_page=100&format=json&nojsoncallback=1"
         println("Send request to $url")
         val req = Request.Builder()
                 .url(url)

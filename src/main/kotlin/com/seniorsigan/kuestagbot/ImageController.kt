@@ -44,9 +44,8 @@ class ImageController
         buildResponse(urls, width, height, response)
     }
     
-    fun buildResponse(allUrls: List<String>, width: Int, height: Int, response: HttpServletResponse) {
-        Collections.shuffle(allUrls)
-        val urls = allUrls.take(width * height)
+    fun buildResponse(urls: List<String>, width: Int, height: Int, response: HttpServletResponse) {
+        Collections.shuffle(urls)
         if (urls.size < width * height) {
             response.status = 404
         } else {
