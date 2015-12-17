@@ -1,0 +1,19 @@
+CREATE TABLE gamer (
+  id BIGSERIAL NOT NULL,
+  username VARCHAR(1024) NOT NULL,
+  first_name VARCHAR(1025) NOT NULL,
+  last_name VARCHAR(1024) NOT NULL,
+
+  telegram_id BIGINT NOT NULL,
+  right_answers BIGINT NOT NULL DEFAULT 0,
+  wrong_answers BIGINT NOT NULL DEFAULT 0,
+
+  created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now() NOT NULL,
+  updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now() NOT NULL,
+
+  PRIMARY KEY(id),
+  UNIQUE (telegram_id)
+);
+
+CREATE TRIGGER update_user_updated_at BEFORE UPDATE ON gamer
+FOR EACH ROW EXECUTE PROCEDURE upd_datetime();

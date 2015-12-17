@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: ${SPRING_DB_URL}
+    username: ${SPRING_DB_USERNAME}
+    password: ${SPRING_DB_PASSWORD}
+
+  jade4j:
+    caching: true
+    prettyPrint: true
