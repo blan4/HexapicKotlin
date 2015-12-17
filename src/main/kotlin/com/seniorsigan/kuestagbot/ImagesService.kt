@@ -62,6 +62,7 @@ class ImagesService
             })
         }
         doneSignal.await(5, TimeUnit.MINUTES)
+        executor.shutdown()
         val loadedImages = images.filterNotNull()
         if (loadedImages.size != count) {
             throw Exception("Not enough media. Downloaded only ${loadedImages.size} of $count")
