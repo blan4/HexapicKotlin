@@ -14,18 +14,18 @@ import javax.servlet.http.HttpServletResponse
 @Controller
 class ImageController
 @Autowired constructor(
-        val flickrRepository: FlickrRepository,
-        val instagramRepository: InstagramRepository,
-        val imagesService: ImagesService
+    val flickrRepository: FlickrRepository,
+    val instagramRepository: InstagramRepository,
+    val imagesService: ImagesService
 ) {
     @RequestMapping(value = "/flickr", method = arrayOf(RequestMethod.GET))
     @ResponseBody
     fun getFromFlickr(
-            request: HttpServletRequest,
-            response: HttpServletResponse,
-            @RequestParam("width", defaultValue = "2") width: Int,
-            @RequestParam("height", defaultValue = "2") height: Int,
-            @RequestParam("tag", defaultValue = "cat") tag: String
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        @RequestParam("width", defaultValue = "2") width: Int,
+        @RequestParam("height", defaultValue = "2") height: Int,
+        @RequestParam("tag", defaultValue = "cat") tag: String
     ) {
         val urls = flickrRepository.photosUrlsByTag(tag)
         buildResponse(urls, width, height, response)
@@ -34,16 +34,16 @@ class ImageController
     @RequestMapping(value = "/instagram", method = arrayOf(RequestMethod.GET))
     @ResponseBody
     fun getFromInstagram(
-            request: HttpServletRequest,
-            response: HttpServletResponse,
-            @RequestParam("width", defaultValue = "2") width: Int,
-            @RequestParam("height", defaultValue = "2") height: Int,
-            @RequestParam("tag", defaultValue = "cat") tag: String
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        @RequestParam("width", defaultValue = "2") width: Int,
+        @RequestParam("height", defaultValue = "2") height: Int,
+        @RequestParam("tag", defaultValue = "cat") tag: String
     ) {
         val urls = instagramRepository.photosUrlsByTag(tag)
         buildResponse(urls, width, height, response)
     }
-    
+
     fun buildResponse(urls: List<String>, width: Int, height: Int, response: HttpServletResponse) {
         Collections.shuffle(urls)
         if (urls.size < width * height) {

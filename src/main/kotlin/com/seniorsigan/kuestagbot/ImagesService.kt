@@ -14,13 +14,13 @@ import javax.imageio.ImageIO
 @Service
 class ImagesService
 @Autowired constructor(
-        val client: OkHttpClient, 
-        val imagesProcessor: ImagesProcessor
+    val client: OkHttpClient,
+    val imagesProcessor: ImagesProcessor
 ) {
     fun loadImage(url: String): BufferedImage {
         val req = Request.Builder()
-                .url(url)
-                .build()
+            .url(url)
+            .build()
         val res = client.newCall(req).execute()
         if (res != null && res.isSuccessful) {
             return ImageIO.read(res.body()?.byteStream())
@@ -28,7 +28,7 @@ class ImagesService
             throw Exception("Request $url was failed ${res.code()} ${res.message()}")
         }
     }
-    
+
     fun loadImages(urls: List<String>, count: Int, filter: (BufferedImage) -> Boolean = { true }): List<BufferedImage> {
         if (urls.size < count) throw Exception("Not enough urls to download")
         val executor = Executors.newFixedThreadPool(4)

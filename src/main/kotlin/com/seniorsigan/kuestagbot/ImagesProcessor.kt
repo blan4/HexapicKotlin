@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage
 @Service
 class ImagesProcessor {
     val size = 640
-    
+
     fun concatenateImages(images: List<BufferedImage>, width: Int, height: Int): BufferedImage {
         if (images.size != width * height) throw Exception("Images count isn't equals width * height")
 
@@ -19,13 +19,13 @@ class ImagesProcessor {
             } else {
                 Pair((i / height) * 640, (i % height) * 640)
             }
-            
+
             image.getSubimage(x, y, size, size).data = normalize(tile).data
         }
-        
+
         return image
     }
-    
+
     fun normalize(origin: BufferedImage): BufferedImage {
         val image = cropToSquare(origin)
         if (image.width == size && image.height == size) return image
@@ -38,15 +38,15 @@ class ImagesProcessor {
         g.composite = AlphaComposite.Src
 
         g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-                RenderingHints.VALUE_INTERPOLATION_BILINEAR)
+            RenderingHints.VALUE_INTERPOLATION_BILINEAR)
         g.setRenderingHint(RenderingHints.KEY_RENDERING,
-                RenderingHints.VALUE_RENDER_QUALITY)
+            RenderingHints.VALUE_RENDER_QUALITY)
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON)
+            RenderingHints.VALUE_ANTIALIAS_ON)
 
         return resized
     }
-    
+
     fun cropToSquare(image: BufferedImage): BufferedImage {
         val height = image.height
         val width = image.width
