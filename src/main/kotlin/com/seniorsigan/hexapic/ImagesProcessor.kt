@@ -1,11 +1,9 @@
-package com.seniorsigan.kuestagbot
+package com.seniorsigan.hexapic
 
-import org.springframework.stereotype.Service
 import java.awt.AlphaComposite
 import java.awt.RenderingHints
 import java.awt.image.BufferedImage
 
-@Service
 class ImagesProcessor {
     val size = 640
 

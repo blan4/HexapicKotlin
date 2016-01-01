@@ -1,9 +1,7 @@
-package com.seniorsigan.kuestagbot
+package com.seniorsigan.hexapic
 
 import com.squareup.okhttp.OkHttpClient
 import com.squareup.okhttp.Request
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Service
 import java.awt.image.BufferedImage
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.CountDownLatch
@@ -11,11 +9,8 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import javax.imageio.ImageIO
 
-@Service
-class ImagesService
-@Autowired constructor(
-    val client: OkHttpClient,
-    val imagesProcessor: ImagesProcessor
+class ImagesService(
+    val client: OkHttpClient = OkHttpClient()
 ) {
     fun loadImage(url: String): BufferedImage {
         val req = Request.Builder()
@@ -68,11 +63,5 @@ class ImagesService
             throw Exception("Not enough media. Downloaded only ${loadedImages.size} of $count")
         }
         return loadedImages
-    }
-
-    fun concatenateImages(urls: List<String>, width: Int, height: Int): BufferedImage {
-        val images = loadImages(urls, width * height)
-
-        return imagesProcessor.concatenateImages(images, width, height)
     }
 }

@@ -1,22 +1,17 @@
-package com.seniorsigan.kuestagbot
+package com.seniorsigan.hexapic
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.seniorsigan.kuestagbot.models.InstagramPhotosList
+import com.seniorsigan.hexapic.models.InstagramPhotosList
 import com.squareup.okhttp.OkHttpClient
 import com.squareup.okhttp.Request
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.stereotype.Service
 
-@Service
-class InstagramRepository
-@Autowired constructor(
-    val objectMapper: ObjectMapper,
-    val client: OkHttpClient
+class InstagramRepository(
+    val clientId: String,
+    val objectMapper: ObjectMapper = ObjectMapper(),
+    val client: OkHttpClient = OkHttpClient()
 ) : ImagesRepository {
-    @Value("\${instagram_client_id}")
-    lateinit var CLIENT_ID: String
+    val count = 100
 
     override fun photosUrlsByTag(tag: String): List<String> {
         val media = photosByTag(tag)
@@ -29,7 +24,7 @@ class InstagramRepository
 
     fun photosByTag(tag: String): InstagramPhotosList {
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-        val url = "https://api.instagram.com/v1/tags/$tag/media/recent?client_id=$CLIENT_ID&count=100"
+        val url = "https://api.instagram.com/v1/tags/$tag/media/recent?client_id=$clientId&count=$count"
         println("Send request to $url")
         val req = Request.Builder()
             .url(url)
@@ -38,7 +33,9 @@ class InstagramRepository
         if (res != null && res.isSuccessful) {
             val data = res.body().string()
             println("Instagram response: $data")
-            return objectMapper.readValue(data, InstagramPhotosList::class.java) ?: InstagramPhotosList()
+            val list = objectMapper.readValue(data, InstagramPhotosList::class.java) ?: InstagramPhotosList()
+            println("Instagram give ${list.data.size} photos")
+            return list
         } else {
             println("Instagram response with error ${res?.message()}")
             return InstagramPhotosList()

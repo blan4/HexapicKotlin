@@ -1,9 +1,11 @@
-package com.seniorsigan.kuestagbot.models
+package com.seniorsigan.hexapic.models
 
 data class FlickrPhotosList(
     var photos: FlickrPhotos = FlickrPhotos(),
     var stat: String = ""
-)
+) {
+    fun toUrls(size: String) = photos.photo.map { it.url(size) }
+}
 
 data class FlickrPhotos(
     var photo: List<FlickrPhoto> = emptyList()

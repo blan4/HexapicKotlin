@@ -1,4 +1,4 @@
-package com.seniorsigan.kuestagbot.models
+package com.seniorsigan.hexapic.models
 
 import java.util.*
 

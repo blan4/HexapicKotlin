@@ -1,23 +1,17 @@
-package com.seniorsigan.kuestagbot
+package com.seniorsigan.hexapic
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.seniorsigan.kuestagbot.models.FlickrPhotosList
+import com.seniorsigan.hexapic.models.FlickrPhotosList
 import com.squareup.okhttp.OkHttpClient
 import com.squareup.okhttp.Request
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.stereotype.Service
 
-@Service
-class FlickrRepository
-@Autowired constructor(
-    val objectMapper: ObjectMapper,
-    val client: OkHttpClient
+class FlickrRepository(
+    val apiKey: String,
+    val objectMapper: ObjectMapper = ObjectMapper(),
+    val client: OkHttpClient = OkHttpClient()
 ) : ImagesRepository {
-
-    @Value("\${flickr_api_key}")
-    lateinit var API_KEY: String
+    val count = 100
 
     override fun photosUrlsByTag(tag: String): List<String> {
         val photos = photosByTag(tag)
@@ -27,7 +21,7 @@ class FlickrRepository
     fun photosByTag(tag: String): FlickrPhotosList {
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         val method = "flickr.photos.search"
-        val url = "https://api.flickr.com/services/rest/?method=$method&api_key=$API_KEY&tags=$tag&per_page=100&format=json&nojsoncallback=1"
+        val url = "https://api.flickr.com/services/rest/?method=$method&api_key=$apiKey&tags=$tag&per_page=$count&format=json&nojsoncallback=1"
         println("Send request to $url")
         val req = Request.Builder()
             .url(url)
@@ -36,12 +30,12 @@ class FlickrRepository
         if (res != null && res.isSuccessful) {
             val data = res.body().string()
             println("Flickr response: $data")
-            return objectMapper.readValue(data, FlickrPhotosList::class.java) ?: FlickrPhotosList()
+            val list = objectMapper.readValue(data, FlickrPhotosList::class.java) ?: FlickrPhotosList()
+            println("Flickr give ${list.photos.photo.size} photos")
+            return list
         } else {
             println("Flickr response with error ${res?.message()}")
             return FlickrPhotosList()
         }
     }
 }
-
-fun FlickrPhotosList.toUrls(size: String) = photos.photo.map { it.url(size) }
