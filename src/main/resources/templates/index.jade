@@ -17,7 +17,7 @@ html
     h1 Random + Instagram = Hexapic
     p
       | Just go to 
-      a(href='?tag=cat') Cats
+      a(href='/tag/cat') Cats
       |  page. We'll generate nice pic for you!!!
     img(src='https://raw.githubusercontent.com/blan4/Hexapic/master/public/cats.jpg', alt='cats')
     h2 Don't like Cats? 
@@ -25,13 +25,9 @@ html
       | Use this 
       b simple
       |  API to get something more: 
-      code http://hexapicserv.appspot.com/?tag=tagname
+      code http://hexapicserv.appspot.com/tag/tagname
       |  or 
-      code http://hexapicserv.appspot.com/?user=username
-    h2 Photos around you
-    p
-      a#locate(href='javascript:void(0)') Locate me
-      |  and make collage
+      code http://hexapicserv.appspot.com/user/username
     h2 Hexapic Quiz
     p
       | Guess as much instagram tags as you can. 

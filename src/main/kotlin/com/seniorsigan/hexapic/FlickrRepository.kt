@@ -18,6 +18,11 @@ class FlickrRepository(
         return photos.toUrls("z")
     }
 
+    override fun photosUrlsByUser(username: String): List<String> {
+        println("Flicker photosUrlsByUser not implemented")
+        return emptyList()
+    }
+
     fun photosByTag(tag: String): FlickrPhotosList {
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         val method = "flickr.photos.search"
