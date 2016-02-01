@@ -6,8 +6,10 @@ web:
   ports:
     - "9000:9000"
   environment:
-    SPRING_DB_URL: jdbc:postgresql://localhost:5432/postgres
+    SPRING_DB_URL: jdbc:postgresql://db:5432/postgres
     SPRING_DB_USERNAME: postgres
     SPRING_DB_PASSWORD:
+  links:
+    - db
 db:
   image: postgres:9.5
