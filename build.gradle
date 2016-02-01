@@ -25,7 +25,7 @@ idea {
 }
 
 jar {
-    baseName = 'juestagbot'
+    baseName = 'hexapic'
     version = '0.0.1-SNAPSHOT'
 }
 

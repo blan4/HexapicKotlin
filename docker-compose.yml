@@ -1,0 +1,13 @@
+web:
+  image: java:8
+  volumes:
+    - .:/app
+  command: java -jar /app/build/libs/hexapic-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
+  ports:
+    - "9000:9000"
+  environment:
+    SPRING_DB_URL: jdbc:postgresql://localhost:5432/postgres
+    SPRING_DB_USERNAME: postgres
+    SPRING_DB_PASSWORD:
+db:
+  image: postgres:9.5

@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import javax.sql.DataSource
 
-@Configuration
-@MapperScan(basePackages = arrayOf("com.seniorsigan.kuestagbot.mappers"))
+//@Configuration
+//@MapperScan(basePackages = arrayOf("com.seniorsigan.kuestagbot.mappers"))
 open class DatabaseConfig {
     @Autowired
     lateinit public var dataSource: DataSource
