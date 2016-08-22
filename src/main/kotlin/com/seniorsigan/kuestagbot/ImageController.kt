@@ -1,9 +1,6 @@
 package com.seniorsigan.kuestagbot
 
-import com.seniorsigan.hexapic.FlickrRepository
-import com.seniorsigan.hexapic.HexapicService
-import com.seniorsigan.hexapic.ImagesRepository
-import com.seniorsigan.hexapic.InstagramRepository
+import com.seniorsigan.hexapic.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
@@ -15,7 +12,7 @@ import javax.servlet.http.HttpServletResponse
 class ImageController
 @Autowired constructor(
     val flickrRepository: FlickrRepository,
-    val instagramRepository: InstagramRepository,
+    val vkRepository: VkRepository,
     val hexapicService: HexapicService
 ) {
     @RequestMapping(value = "/tag/{tag}", method = arrayOf(RequestMethod.GET))
@@ -28,10 +25,10 @@ class ImageController
         @PathVariable("tag") tag: String
     ) {
         val repositories = when (source) {
-            "instagram" -> listOf(instagramRepository)
             "flickr" -> listOf(flickrRepository)
-            "all" -> listOf(instagramRepository, flickrRepository)
-            else -> listOf(instagramRepository)
+            "vk" -> listOf(vkRepository)
+            "all" -> listOf(flickrRepository, vkRepository)
+            else -> listOf(flickrRepository)
         }
         
         buildResponse(hexapicService.loadByTag(repositories, tag, width, height), response)
@@ -47,10 +44,10 @@ class ImageController
         @PathVariable("user") username: String
     ) {
         val repositories = when (source) {
-            "instagram" -> listOf(instagramRepository)
+            "vk" -> listOf(vkRepository)
             "flickr" -> listOf(flickrRepository)
-            "all" -> listOf(instagramRepository, flickrRepository)
-            else -> listOf(instagramRepository)
+            "all" -> listOf(vkRepository, flickrRepository)
+            else -> listOf(flickrRepository)
         }
 
         buildResponse(hexapicService.loadByUser(repositories, username, width, height), response)

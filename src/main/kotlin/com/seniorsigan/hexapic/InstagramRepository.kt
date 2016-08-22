@@ -7,6 +7,7 @@ import com.seniorsigan.hexapic.models.InstagramUserSearch
 import com.squareup.okhttp.OkHttpClient
 import com.squareup.okhttp.Request
 
+@Deprecated("Read new Instagram service policy")
 class InstagramRepository(
     val clientId: String,
     val objectMapper: ObjectMapper = ObjectMapper(),

@@ -34,9 +34,7 @@ class FlickrRepository(
         val res = client.newCall(req).execute()
         if (res != null && res.isSuccessful) {
             val data = res.body().string()
-            println("Flickr response: $data")
             val list = objectMapper.readValue(data, FlickrPhotosList::class.java) ?: FlickrPhotosList()
-            println("Flickr give ${list.photos.photo.size} photos")
             return list
         } else {
             println("Flickr response with error ${res?.message()}")
