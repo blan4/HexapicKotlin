@@ -21,7 +21,7 @@ class InstagramRepository(
         return selectImageUrls(getMedia(url))
     }
 
-    override fun photosUrlsByUser(username: String): List<String> {
+    fun photosUrlsByUser(username: String): List<String> {
         val userId = findUserId(username) ?: return emptyList()
         val url = "https://api.instagram.com/v1/users/$userId/media/recent?client_id=$clientId&count=$count"
 

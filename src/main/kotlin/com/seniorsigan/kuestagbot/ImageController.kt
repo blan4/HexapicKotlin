@@ -50,7 +50,7 @@ class ImageController
             else -> listOf(flickrRepository)
         }
 
-        buildResponse(hexapicService.loadByUser(repositories, username, width, height), response)
+        throw Exception("Users search unsupported")
     }
 
     fun buildResponse(image: BufferedImage, response: HttpServletResponse) {

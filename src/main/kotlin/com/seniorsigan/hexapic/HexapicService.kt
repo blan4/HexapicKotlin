@@ -14,11 +14,6 @@ class HexapicService(
         return loadAndConcatenate(urls, width, height)
     }
     
-    fun loadByUser(repositories: List<ImagesRepository>, username: String, width: Int = 3, height: Int = 2): BufferedImage {
-        val urls = repositories.map { it.photosUrlsByUser(username) }.flatten()
-        return loadAndConcatenate(urls, width, height)
-    }
-    
     fun loadAndConcatenate(urls: List<String>, width: Int, height: Int): BufferedImage {
         if (urls.size < width * height) throw Exception("Not enough media")
         Collections.shuffle(urls)

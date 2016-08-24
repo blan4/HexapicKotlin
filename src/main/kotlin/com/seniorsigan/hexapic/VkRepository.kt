@@ -1,6 +1,5 @@
 package com.seniorsigan.hexapic
 
-import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.seniorsigan.hexapic.models.VkFeed
 import com.squareup.okhttp.OkHttpClient
@@ -16,11 +15,6 @@ class VkRepository(
     override fun photosUrlsByTag(tag: String): List<String> {
         val feed = searchNewsFeed(tag)
         return extractPhotoURLs(feed)
-    }
-
-    override fun photosUrlsByUser(username: String): List<String> {
-        println("Vk photosUrlsByUser not implemented")
-        return emptyList()
     }
 
     fun extractPhotoURLs(feed: VkFeed): List<String> {
