@@ -34,25 +34,6 @@ class ImageController
         buildResponse(hexapicService.loadByTag(repositories, tag, width, height), response)
     }
 
-    @RequestMapping(value = "/user/{user}", method = arrayOf(RequestMethod.GET))
-    @ResponseBody
-    fun getUserCollage(
-        response: HttpServletResponse,
-        @RequestParam("width", defaultValue = "2") width: Int,
-        @RequestParam("height", defaultValue = "2") height: Int,
-        @RequestParam("source", defaultValue = "") source: String,
-        @PathVariable("user") username: String
-    ) {
-        val repositories = when (source) {
-            "vk" -> listOf(vkRepository)
-            "flickr" -> listOf(flickrRepository)
-            "all" -> listOf(vkRepository, flickrRepository)
-            else -> listOf(flickrRepository)
-        }
-
-        throw Exception("Users search unsupported")
-    }
-
     fun buildResponse(image: BufferedImage, response: HttpServletResponse) {
         try {
             response.contentType = "image/png"
