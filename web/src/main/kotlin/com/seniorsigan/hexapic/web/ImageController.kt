@@ -31,13 +31,13 @@ class ImageController
             else -> listOf(flickrRepository)
         }
         
-        buildResponse(hexapicService.loadByTag(repositories, tag, width, height), response)
+        buildResponse({hexapicService.loadByTag(repositories, tag, width, height)}, response)
     }
 
-    fun buildResponse(image: BufferedImage, response: HttpServletResponse) {
+    fun buildResponse(image: () -> BufferedImage, response: HttpServletResponse) {
         try {
             response.contentType = "image/png"
-            ImageIO.write(image, "png", response.outputStream)
+            ImageIO.write(image(), "png", response.outputStream)
         } catch (e: Exception){
             println(e.message)
             response.status = 404
