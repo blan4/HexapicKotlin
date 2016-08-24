@@ -1,4 +1,4 @@
-package com.seniorsigan.kuestagbot
+package com.seniorsigan.hexapic.web
 
 import com.seniorsigan.hexapic.*
 import org.springframework.beans.factory.annotation.Autowired

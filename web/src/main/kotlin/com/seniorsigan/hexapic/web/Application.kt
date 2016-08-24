@@ -1,4 +1,4 @@
-package com.seniorsigan.kuestagbot
+package com.seniorsigan.hexapic.web
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication

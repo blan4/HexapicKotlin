@@ -1,13 +1,12 @@
 package com.seniorsigan.hexapic
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.seniorsigan.hexapic.models.VkFeed
 import com.squareup.okhttp.OkHttpClient
 import com.squareup.okhttp.Request
 import java.net.URLEncoder
 
 class VkRepository(
-    val objectMapper: ObjectMapper,
+    val parser: IJsonParser,
     val client: OkHttpClient = OkHttpClient()
 ): ImagesRepository {
     val count = 200
@@ -35,7 +34,7 @@ class VkRepository(
         val res = client.newCall(req).execute()
         if (res != null && res.isSuccessful) {
             val data = res.body().string()
-            val feed = objectMapper.readValue(data, VkFeed::class.java) ?: VkFeed()
+            val feed = parser.unwrap(data, VkFeed::class.java) ?: VkFeed()
             return feed
         } else {
             println("VK response with error ${res?.message()}")

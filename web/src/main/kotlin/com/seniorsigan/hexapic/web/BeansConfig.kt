@@ -1,7 +1,5 @@
-package com.seniorsigan.kuestagbot
+package com.seniorsigan.hexapic.web
 
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.seniorsigan.hexapic.FlickrRepository
 import com.seniorsigan.hexapic.HexapicService
 import com.seniorsigan.hexapic.VkRepository
@@ -19,18 +17,14 @@ open class BeansConfig {
     open fun okHttpClient() = OkHttpClient()
 
     @Bean
-    open fun objectMapper(): ObjectMapper {
-        val om = ObjectMapper()
-        om.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-        return om
-    }
+    open fun jsonParser(): JsonParser = JsonParser()
 
     @Bean
     open fun hexapicService() = HexapicService(okHttpClient())
 
     @Bean
-    open fun flickrRepository() = FlickrRepository(flickrKey, objectMapper(), okHttpClient())
+    open fun flickrRepository() = FlickrRepository(flickrKey, jsonParser(), okHttpClient())
 
     @Bean
-    open fun vkRepository() = VkRepository(objectMapper(), okHttpClient())
+    open fun vkRepository() = VkRepository(jsonParser(), okHttpClient())
 }

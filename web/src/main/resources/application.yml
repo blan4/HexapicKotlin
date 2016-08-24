@@ -2,11 +2,6 @@ server:
   port: 9000
 
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/hexapic_dev
-    username: hexapic
-    password: hexapicpwd
-
   devtools:
     restart:
       enabled: true
@@ -14,10 +9,6 @@ spring:
   jade4j:
     caching: false
     prettyPrint: true
-
-flyway:
-  baseline-on-migrate: true
-  clean-on-validation-error: true
 
 instagram_client_id: 417c3ee8c9544530b83aa1c24de2abb3
 flickr_api_key: bd053065ce6662cb4b2f4c0be2b65266

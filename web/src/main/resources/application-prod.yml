@@ -1,0 +1,7 @@
+spring:
+  jade4j:
+    caching: true
+    prettyPrint: true
+
+instagram_client_id: 417c3ee8c9544530b83aa1c24de2abb3
+flickr_api_key: bd053065ce6662cb4b2f4c0be2b65266

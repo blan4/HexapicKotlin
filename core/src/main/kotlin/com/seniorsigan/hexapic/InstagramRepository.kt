@@ -1,7 +1,5 @@
 package com.seniorsigan.hexapic
 
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.seniorsigan.hexapic.models.InstagramPhotosList
 import com.seniorsigan.hexapic.models.InstagramUserSearch
 import com.squareup.okhttp.OkHttpClient
@@ -10,7 +8,7 @@ import com.squareup.okhttp.Request
 @Deprecated("Read new Instagram service policy")
 class InstagramRepository(
     val clientId: String,
-    val objectMapper: ObjectMapper = ObjectMapper(),
+    val parser: IJsonParser,
     val client: OkHttpClient = OkHttpClient()
 ) : ImagesRepository {
     val count = 100
@@ -37,7 +35,6 @@ class InstagramRepository(
     }
 
     fun getMedia(url: String): InstagramPhotosList {
-        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
         println("Send request to $url")
         val req = Request.Builder()
             .url(url)
@@ -46,7 +43,7 @@ class InstagramRepository(
         if (res != null && res.isSuccessful) {
             val data = res.body().string()
             println("Instagram response: $data")
-            val list = objectMapper.readValue(data, InstagramPhotosList::class.java) ?: InstagramPhotosList()
+            val list = parser.unwrap(data, InstagramPhotosList::class.java) ?: InstagramPhotosList()
             println("Instagram give ${list.data.size} photos")
             return list
         } else {
@@ -56,7 +53,6 @@ class InstagramRepository(
     }
 
     fun findUserId(username: String): String? {
-        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         val url = "https://api.instagram.com/v1/users/search/?q=$username&client_id=$clientId"
         println("Send request to $url")
         val req = Request.Builder()
@@ -66,7 +62,7 @@ class InstagramRepository(
         if (res != null && res.isSuccessful) {
             val data = res.body().string()
             println("Instagram response: $data")
-            val list = objectMapper.readValue(data, InstagramUserSearch::class.java)
+            val list = parser.unwrap(data, InstagramUserSearch::class.java) ?: InstagramUserSearch()
             println("Instagram give ${list.data.size} users")
             return list.data.find { it.username == username }?.id
         } else {
